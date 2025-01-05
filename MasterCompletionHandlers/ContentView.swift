@@ -36,20 +36,28 @@ struct ContentView: View {
 //            self.name = name
 //        }
         
-        delayedWithError { result in
-            if result.1 != nil {
-                print("Error: \(result.1!.localizedDescription)")
-                return
-            } else {
-                name = result.0 
+//        delayedWithError { result in
+//            if result.1 != nil {
+//                print("Error: \(result.1!.localizedDescription)")
+//                return
+//            } else {
+//                name = result.0
+//            }
+//        }
+        
+        delayedResult { result in
+            switch result {
+            case .success(let name):
+                self.name = name
+            case .failure(let error):
+                print("Error: \(error.localizedDescription)")
             }
         }
-        
     }
     
-    func instance() -> String {
-        "Ada"
-    }
+//    func instance() -> String {
+//        "Ada"
+//    }
     
     
 //    func delayed(completion: @escaping (String) -> Void) {
@@ -65,12 +73,17 @@ struct ContentView: View {
 //        }
 //    }
     
-    func delayedWithError(completion: @escaping ((String, Error?)) -> Void) {
+//    func delayedWithError(completion: @escaping ((String, Error?)) -> Void) {
+//        delay(2) {
+//            completion(("Ada", nil))
+//        }
+//    }
+    
+    func delayedResult(completion: @escaping (Result<String, Error>) -> Void) {
         delay(2) {
-            completion(("Ada", nil))
+            completion(.success("Ada"))
         }
     }
-    
     
     func delay(_ seconds: Double, closure: @escaping () -> Void) {
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
