@@ -23,7 +23,16 @@ struct ContentView: View {
     
     func buttonTapped() {
 //        name = instance()
-        delayed { name in
+        
+//        delayed { name in
+//            self.name = name
+//        }
+
+        delayedOptional { name in
+            guard let name else {
+                print("No name")
+                return
+            }
             self.name = name
         }
     }
@@ -32,9 +41,17 @@ struct ContentView: View {
         "Ada"
     }
     
-    func delayed(completion: @escaping (String) -> Void) {
+    
+//    func delayed(completion: @escaping (String) -> Void) {
+//        delay(2) {
+//            completion("Ada")
+//        }
+//    }
+    
+    
+    func delayedOptional(completion: @escaping (String?) -> Void) {
         delay(2) {
-            completion("Ada")
+            completion(nil)
         }
     }
     
