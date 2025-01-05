@@ -28,13 +28,23 @@ struct ContentView: View {
 //            self.name = name
 //        }
 
-        delayedOptional { name in
-            guard let name else {
-                print("No name")
+//        delayedOptional { name in
+//            guard let name else {
+//                print("No name")
+//                return
+//            }
+//            self.name = name
+//        }
+        
+        delayedWithError { result in
+            if result.1 != nil {
+                print("Error: \(result.1!.localizedDescription)")
                 return
+            } else {
+                name = result.0 
             }
-            self.name = name
         }
+        
     }
     
     func instance() -> String {
@@ -49,11 +59,18 @@ struct ContentView: View {
 //    }
     
     
-    func delayedOptional(completion: @escaping (String?) -> Void) {
+//    func delayedOptional(completion: @escaping (String?) -> Void) {
+//        delay(2) {
+//            completion(nil)
+//        }
+//    }
+    
+    func delayedWithError(completion: @escaping ((String, Error?)) -> Void) {
         delay(2) {
-            completion(nil)
+            completion(("Ada", nil))
         }
     }
+    
     
     func delay(_ seconds: Double, closure: @escaping () -> Void) {
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
