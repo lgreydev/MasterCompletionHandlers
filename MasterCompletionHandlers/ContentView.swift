@@ -22,7 +22,20 @@ struct ContentView: View {
     }
     
     func buttonTapped() {
-        
+//        name = instance()
+        delayed { name in
+            self.name = name
+        }
+    }
+    
+    func instance() -> String {
+        "Ada"
+    }
+    
+    func delayed(completion: @escaping (String) -> Void) {
+        delay(2) {
+            completion("Ada")
+        }
     }
     
     func delay(_ seconds: Double, closure: @escaping () -> Void) {
